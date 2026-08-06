@@ -1,0 +1,7 @@
+username,password,expectedResult,description
+standard_user,secret_sauce,success,valid login
+locked_out_user,secret_sauce,locked_out,locked out user
+standard_user,wrong_password,error,wrong password
+"",secret_sauce,error,empty username
+standard_user,"",error,empty password
+"","",error,empty username and password
