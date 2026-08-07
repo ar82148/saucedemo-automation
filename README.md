@@ -3,11 +3,16 @@ SauceDemo Automation
 A QA automation portfolio project targeting the SauceDemo site, built with Java, Selenium, and Karate. Structure as a Maven multi-module project with a Page Object Model design and a CI pipeline running on GitHub Actions
 
 Tech Stack
+
 Java 17
 Selenium WebDriver 4.35
+
 JUnit 5 — test runner, data-driven tests via @ParameterizedTest / @CsvFileSource
+
 Karate 1.4.1 — HTTP-level smoke checks
+
 Maven — multi-module build (main / test)
+
 GitHub Actions — CI on every push
 
 
