@@ -17,21 +17,21 @@ public class PurchaseTest {
 
     @BeforeEach
     public void setUp() {
-        FirefoxProfile profile = new FirefoxProfile();
-        profile.setPreference("signon.rememberSignons", false);
-        profile.setPreference("signon.autofillForms", false);
-        profile.setPreference("browser.safebrowsing.passwords.enabled", false);
-
         FirefoxOptions options = new FirefoxOptions();
-        options.setProfile(profile);
-
+        String firefoxBin = System.getenv("FIREFOX_BIN");
+        if (firefoxBin != null && !firefoxBin.isEmpty()) {
+            options.setBinary(firefoxBin);
+        }
+        options.addArguments("--headless");
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
     }
 
     @AfterEach
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @Test
@@ -50,7 +50,7 @@ public class PurchaseTest {
         inventoryPage.openCart();
 
         //Check if completed successfully
-        assertTrue(cartPage.isItemInCart("Sauce Labs Backpack"));
+        Assertions.assertTrue(cartPage.isItemInCart("Sauce Labs Backpack"));
 
         //Billing Information and Order
         cartPage.checkout();
@@ -61,7 +61,7 @@ public class PurchaseTest {
         checkoutPage.continueCheckout();
         checkoutPage.finishOrder();
 
-        assertEquals(
+        Assertions.assertEquals(
                 "Thank you for your order!",
                 checkoutPage.getConfirmationMessage());
     }

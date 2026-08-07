@@ -19,6 +19,9 @@ jobs:
       - name: Set up Firefox
         uses: browser-actions/setup-firefox@v1
 
+      - name: Export Firefox binary path for tests
+        run: echo "FIREFOX_BIN=/opt/hostedtoolcache/firefox/latest/x64/firefox" >> $GITHUB_ENV
+
       - name: Set up Geckodriver
         uses: browser-actions/setup-geckodriver@latest
 

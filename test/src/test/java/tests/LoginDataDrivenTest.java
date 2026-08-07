@@ -18,13 +18,20 @@ public class LoginDataDrivenTest {
     @BeforeEach
     public void setUp() {
         FirefoxOptions options = new FirefoxOptions();
+        String firefoxBin = System.getenv("FIREFOX_BIN");
+        if (firefoxBin != null && !firefoxBin.isEmpty()) {
+            options.setBinary(firefoxBin);
+        }
+        options.addArguments("--headless");
         driver = new FirefoxDriver(options);
         driver.manage().window().maximize();
     }
 
     @AfterEach
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
     @ParameterizedTest(name = "{3}")
@@ -37,14 +44,14 @@ public class LoginDataDrivenTest {
         switch (expectedResult) {
             case "success" -> {
                 InventoryPage inventoryPage = new InventoryPage(driver);
-                assertTrue(inventoryPage.isLoaded(), "Expected successful login to land on inventory page");
+                Assertions.assertTrue(inventoryPage.isLoaded(), "Expected successful login to land on inventory page");
             }
             case "locked_out" -> {
-                assertTrue(loginPage.getErrorMessage().contains("locked out"),
+                Assertions.assertTrue(loginPage.getErrorMessage().contains("locked out"),
                         "Expected locked-out error message");
             }
             case "error" -> {
-                assertFalse(loginPage.getErrorMessage().isEmpty(),
+                Assertions.assertFalse(loginPage.getErrorMessage().isEmpty(),
                         "Expected an error message for invalid input");
             }
             default -> fail("Unknown expectedResult in test data: " + expectedResult);
